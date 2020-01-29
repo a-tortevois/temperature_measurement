@@ -1,0 +1,68 @@
+----------------------------------------------------------------------------------------------------
+  Installation
+  
+  Source : https://xdevs.com/guide/ni_gpib_rpi/
+----------------------------------------------------------------------------------------------------
+
+root@raspberrypi:~# apt-get update
+
+root@raspberrypi:~# apt-get install git bc bison flex libssl-dev
+
+root@raspberrypi:~# wget https://raw.githubusercontent.com/notro/rpi-source/master/rpi-source -O /usr/local/bin/rpi-source && sudo chmod +x /usr/local/bin/rpi-source && /usr/local/b/rpi-source -q --tag-update
+
+root@raspberrypi:/lib/modules# apt-get install tk-dev build-essential texinfo texi2html libcwidget-dev libncurses5-dev libx11-dev binutils-dev bison flex libusb-1.0-0 libusb-dev libmpfr-dev libexpat1-dev tofrodos subversion autoconf automake libtool mercurial
+
+root@raspberrypi:/lib/modules# tar xzvf linux-gpib-4.3.0.tar.gz -C /root/
+
+root@raspberrypi:~# tar xzvf linux-gpib-4.3.0.tar.gz -C /root/
+
+root@raspberrypi:~# cd linux-gpib-4.3.0/
+
+root@raspberrypi:~/linux-gpib-4.3.0# tar xzvf linux-gpib-kernel-4.3.0.tar.gz -C /root/linux-gpib-4.3.0/
+
+root@raspberrypi:~/linux-gpib-4.3.0# tar xzvf linux-gpib-user-4.3.0.tar.gz -C /root/linux-gpib-4.3.0/
+
+root@raspberrypi:~/linux-gpib-4.3.0# cd linux-gpib-kernel-4.3.0/
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-kernel-4.3.0# make
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-kernel-4.3.0# make install
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-kernel-4.3.0# cd ..
+
+root@raspberrypi:~/linux-gpib-4.3.0# cd linux-gpib-user-4.3.0/
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-user-4.3.0# ./bootstrap
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-user-4.3.0# ./configure
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-user-4.3.0# make
+
+root@raspberrypi:~/linux-gpib-4.3.0/linux-gpib-user-4.3.0# make install
+
+root@raspberrypi:~# lsusb
+Bus 001 Device 005: ID 3923:709b National Instruments Corp. GPIB-USB-HS
+Bus 001 Device 004: ID 0424:7800 Standard Microsystems Corp.
+Bus 001 Device 003: ID 0424:2514 Standard Microsystems Corp. USB 2.0 Hub
+Bus 001 Device 002: ID 0424:2514 Standard Microsystems Corp. USB 2.0 Hub
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+
+root@raspberrypi:~# modprobe ni_usb_gpib
+
+root@raspberrypi:~# lsmod
+Module                  Size  Used by
+ni_usb_gpib            40960  0
+gpib_common            53248  1 ni_usb_gpib
+
+root@raspberrypi:~# nano /usr/local/etc/gpib.conf
+
+board_type = "ni_usb_b"
+
+root@raspberrypi:~# ldconfig
+
+root@raspberrypi:~# gpib_config
+
+root@raspberrypi:~# ibtest
+Do you wish to open a (d)evice or an interface (b)oard?
+        (you probably want to open a device): d
+enter primary gpib address for device you wish to open [0-30]: 5
