@@ -2,6 +2,7 @@
   Installation
   
   Source : https://xdevs.com/guide/ni_gpib_rpi/
+		   https://sourceforge.net/projects/linux-gpib/files/
 ----------------------------------------------------------------------------------------------------
 
 root@raspberrypi:~# apt-get update
